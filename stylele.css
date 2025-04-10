@@ -127,3 +127,97 @@ a{
     font-size: 95%;
 }
 
+.quadro{
+    display: flex;
+    flex-direction: row;
+    justify-items:baseline;
+    padding-inline: 6px;
+    padding-top: 4px;
+    border-radius: 5px;
+    margin-top: 10px;
+    background-color: rgb(252, 252, 218);
+    width: 99%;
+    height: 500px;
+    gap: 10px;
+}
+
+.adicionarC{
+    align-content:center;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 180px;
+    height: 30px;
+    background-color: #205295;
+    color: white
+
+}
+
+.coluna{
+    
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    background-color: #2C74B3;
+    color: white;
+    width: 220px;
+    height: 98%;
+}
+
+.colunaHead{
+    border-bottom: 2px solid black;
+    background-color: #144272;
+    color: aliceblue;
+}
+
+.coluna h2{
+    margin-left: 8px;
+}
+
+.colunaBody{
+    margin-top: 15px;
+    
+    justify-items:center;
+    
+}
+
+.adicionarTask{
+    align-content:center;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 180px;
+    height: 30px;
+    color: white;
+    background-color: #144272;
+}
+
+.adicionarTask:hover{
+    box-shadow: 0px 8px 16px black;
+}
+
+.adicionarC:hover{
+    box-shadow: 0px 8px 16px black;
+}
+
+.task{
+    display:block;
+    border: 2px solid black;
+    background-color: #406fa1 ;
+    color: white;
+    width: 200px;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+.taskHead{
+    border-bottom: 2px solid black;
+    background-color: #144272;
+    color: aliceblue;
+}
+
+.taskBody{
+    padding: 5px;
+    margin-top: 5px;
+    
+}

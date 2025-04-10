@@ -29,3 +29,8 @@ function botaoNovoQuadro(){
             console.log("'invisivel'");
         }
 }
+
+function test12(){
+    const doc=document.getElementById("teste");
+    doc.style.backgroundColor="black";
+}
