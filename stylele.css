@@ -95,36 +95,42 @@ a{
     background-color:#2C74B3;
     margin-top: 40px;
     border: 4px solid black;
-    width: 280px;
-    height: 180px;
+    width: 448px; /* Aumentado em 60% (280px * 1.6) */
+    height: 288px; /* Aumentado em 60% (180px * 1.6) */
     color: aliceblue;
     justify-self: center
 }
 
 .novoQuadroHead{
     border-bottom: 3px solid black;
-    height: 55px;
+    height: 60px;
     text-align: center;
     background-color: #205295;
 }
 .novoQuadro input{
     align-self: center;
-    width: 240px;
+    width: 384px; /* Aumentado em 60% (240px * 1.6) */
+    height: 22px;
 }
 .novoQuadro button{
     align-self: center;
     margin-top: 10px;
-    width: 80px;
+    width: 128px; /* Aumentado em 60% (80px * 1.6) */
+    height: 2em;
+}
+.novoQuadro button:hover{
+    cursor: pointer;
 }
 .novoQuadro h2{
     margin-top: 15px;
+    font-size: 1.7em; /* Aumentado em 60% */
 }
 
 .novoQuadro label{
     margin-top: 10px;
-    margin-left: 16px;
-    margin-bottom: 5px;
-    font-size: 95%;
+    margin-left: 27px;
+    margin-bottom: 15px;
+    font-size: 1.6em; /* Aumentado em 60% */
 }
 
 .quadro{
@@ -136,6 +142,7 @@ a{
     border-radius: 5px;
     margin-top: 10px;
     background-color: rgb(252, 252, 218);
+   /*background-color: #88b0d3; Fundo azul claro*/
     width: 99%;
     height: 500px;
     gap: 10px;
@@ -162,6 +169,8 @@ a{
     color: white;
     width: 220px;
     height: 98%;
+    margin-left: 15px;
+    
 }
 
 .colunaHead{
@@ -176,13 +185,13 @@ a{
 
 .colunaBody{
     margin-top: 15px;
-    
     justify-items:center;
+    
     
 }
 
 .adicionarTask{
-    align-content:center;
+    align-content: center;
     text-align: center;
     border: 2px solid black;
     border-radius: 20px;
@@ -190,6 +199,7 @@ a{
     height: 30px;
     color: white;
     background-color: #144272;
+   
 }
 
 .adicionarTask:hover{
@@ -220,4 +230,16 @@ a{
     padding: 5px;
     margin-top: 5px;
     
+}
+
+.tituloQuadro{
+    color: aliceblue;
+    font-weight: bold;
+    font-size:xx-large;
+    margin-top: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#QUADRO{
+    flex-direction: column;
 }
