@@ -1,6 +1,3 @@
-var qtdQuadros = 0;
-var qtdListas = 0;
-
 function criarQuadro() {
     const nomeQuadro = document.getElementById('nomeQuadro').value.trim();
 
@@ -8,6 +5,9 @@ function criarQuadro() {
         alert('Por favor, insira um nome para o quadro.');
         return;
     }
+
+    const novoQuadro = document.getElementById('novoQuadro');
+    novoQuadro.style.display = 'none';
 
     // Exibe o quadro
     const quadro = document.getElementById('QUADRO');
@@ -21,12 +21,6 @@ function criarQuadro() {
     // Limpa o campo de entrada
     document.getElementById('nomeQuadro').value = '';
 
-    // Remove a primeira coluna fixa do HTML
-    const primeiraColuna = document.querySelector('#coluna');
-    if (primeiraColuna) {
-        primeiraColuna.remove();
-    }
-
     // Garante que o botão "Adicionar Coluna" esteja presente
     const quadroContainer = document.querySelector('.quadro');
     quadroContainer.innerHTML = ''; // Limpa o conteúdo do quadro
@@ -36,6 +30,7 @@ function criarQuadro() {
     addColunaButton.innerText = 'Adicionar coluna +';
     addColunaButton.onclick = addColuna;
     quadroContainer.appendChild(addColunaButton);
+
 }
 
 function botaoNovoQuadro(){
@@ -56,28 +51,15 @@ function botaoNovoQuadro(){
         }
 }
 
-function mostrarQuadro(nome){
-    const teste = document.getElementById('QUADRO');
-    document.querySelector('.tituloQuadro').innerText = nome;
-    teste.style.display = 'flex';
-
-     // Remove a primeira coluna fixa do HTML
-     const primeiraColuna = document.querySelector('#coluna');
-     if (primeiraColuna) {
-         primeiraColuna.remove();
-     }
-    
-}
-
 function adicionarTask(botao){
     const coluna = botao.closest('.coluna'); // Encontra a coluna mais próxima do botão clicado
     const novaTask = document.createElement('div');
     novaTask.className = 'task';
     novaTask.innerHTML = `
-        <div class="taskHead" contenteditable="true" oninput="saveData()">Nova Task
+        <div class="taskHead" contenteditable="true">Nova Task
         <span class="deleteTask" onclick="remover(this)">X</span>
         </div>
-        <div class="taskBody" contenteditable="true" oninput="saveData()">Descrição da nova task</div>
+        <div class="taskBody" contenteditable="true">Descrição da nova task</div>
     `;
     coluna.querySelector('.colunaBody').insertBefore(novaTask, botao); // Insere a nova task antes do botão
 }
@@ -87,13 +69,12 @@ function addColuna(){
     const novaColuna = document.createElement("div");
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
-    <div class="colunaHead"><h2 contenteditable="true" oninput="saveData()">Nova Lista</h2>
+    <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
     <span class="deleteColuna" onclick="remover(this)">X</span>
     </div>
     <div class="colunaBody">
     <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
     </div>`;
-    qtdListas++;
     document.getElementById('colunaBotao').insertAdjacentElement('beforebegin', novaColuna);
 }
 
@@ -103,53 +84,24 @@ function verificarEnter(event) {
     }
 } 
 
-function remover(element) {
+function removerColuna(element) {
+    // Remove a coluna correspondente
+    const coluna = element.closest('.coluna');
+    if (coluna) {
+        coluna.remove();
+    }
+
+}
+
+function removerTask(element) {
     // Remove a task correspondente
     const task = element.closest('.task');
     if (task) {
-    task.remove();
+        task.remove();
     }
 
-    const coluna = element.closest('.coluna'); // Encontra a coluna mais próxima da task removida
-    if (coluna && !task){
-        coluna.remove(); // Remove a coluna se não houver tasks restantes
-    }
-
-    // Atualiza o localStorage
-    saveData();
 }
 
-function saveData() {
-    // Seleciona todas as colunas existentes
-    const colunas = document.querySelectorAll('.coluna');
-    const boardData = [];
-
-    // Itera sobre as colunas e coleta os dados
-    colunas.forEach(coluna => {
-        const colunaHead = coluna.querySelector('.colunaHead h2').innerText.trim();
-        const tasks = [];
-        const taskElements = coluna.querySelectorAll('.task');
-
-        // Itera sobre as tasks dentro da coluna
-        taskElements.forEach(task => {
-            const taskHead = task.querySelector('.taskHead');
-            const taskBody = task.querySelector('.taskBody').innerText.trim();
-            const deleteButton = taskHead.querySelector('.deleteTask');
-            if (deleteButton) deleteButton.remove();
-
-            const taskHeadText = taskHead.innerText.trim();
-            tasks.push({ title: taskHeadText, description: taskBody });
-
-            if (deleteButton) taskHead.appendChild(deleteButton);
-        });
-
-        // Adiciona os dados da coluna ao array
-        boardData.push({ columnTitle: colunaHead, tasks });
-    });
-
-    // Salva os dados no localStorage
-    localStorage.setItem('boardData', JSON.stringify(boardData));
-}
 window.onload = function () {
     const savedBoardData = JSON.parse(localStorage.getItem('boardData')) || [];
 
@@ -158,7 +110,7 @@ window.onload = function () {
         novaColuna.className = 'coluna';
         novaColuna.innerHTML = `
             <div class="colunaHead">
-                <h2 contenteditable="true" oninput="saveData()">${colunaData.columnTitle}</h2>
+                <h2 contenteditable="true">${colunaData.columnTitle}</h2>
                 <span class="deleteColuna" onclick="remover(this)">X</span>
             </div>
             <div class="colunaBody"></div>
@@ -171,11 +123,11 @@ window.onload = function () {
             const novaTask = document.createElement('div');
             novaTask.className = 'task';
             novaTask.innerHTML = `
-                <div class="taskHead" contenteditable="true" oninput="saveData()">
+                <div class="taskHead" contenteditable="true">
                     ${task.title}
-                    <span class="deleteTask" onclick="remover(this)">X</span>
+                    <span class="deleteTask" onclick="removerTask(this)">X</span>
                 </div>
-                <div class="taskBody" contenteditable="true" oninput="saveData()">${task.description}</div>
+                <div class="taskBody" contenteditable="true">${task.description}</div>
             `;
             colunaBody.appendChild(novaTask);
         });
@@ -256,13 +208,13 @@ function atualizarListaQuadros() {
     // Limpa a lista atual
     dropDownContent.innerHTML = '';
 
-    // Adiciona cada quadro salvo à lista
+    // Adiciona cada quadro salvo a lista
     quadrosSalvos.forEach((quadro, index) => {
         const link = document.createElement('a');
         link.href = '#';
         link.innerText = quadro.nome;
         const nomeQuadro = document.querySelector('.tituloQuadro span').innerText.trim();
-        link.onclick = () => carregarQuadro(index); // Chama a função para carregar o quadro
+        link.onclick = () => carregarQuadro(index); 
         dropDownContent.appendChild(link);
     });
 }
@@ -288,7 +240,7 @@ function carregarQuadro(index) {
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${coluna.titulo}</h2>
-                <span class="deleteColuna" onclick="remover(this)">X</span>
+                <span class="deleteColuna" onclick="removerColuna(this)">X</span>
             </div>
             <div class="colunaBody"></div>
         `;
@@ -328,7 +280,6 @@ function carregarQuadro(index) {
 
 window.onload = function () {
     atualizarListaQuadros();
-    // Outras funções de inicialização...
 };
 
 function excluirQuadro() {
