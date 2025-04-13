@@ -1,6 +1,7 @@
 var qtdQuadros = 0;
 var qtdListas = 0;
 
+
 function criarQuadro(){
     const listas = JSON.parse(localStorage.getItem("listas")) || [];
     const nome = document.getElementById('nomeQuadro').value;
@@ -23,6 +24,10 @@ function criarQuadro(){
     botaoNovoQuadro();
     mostrarQuadro(nome);
     qtdQuadros++;
+
+    const novoQuadro = document.createElement('a');
+    novoQuadro.innerText = "Novo parágrafo!";
+    document.body.appendChild(novoParagrafo);
 }
 
 function botaoNovoQuadro(){
@@ -50,6 +55,8 @@ function mostrarQuadro(nome){
      }
     
 }
+
+
 
 function adicionarTask(botao){
     const coluna = botao.closest('.coluna'); // Encontra a coluna mais próxima do botão clicado
@@ -94,27 +101,26 @@ function remover(element) {
 
     const coluna = element.closest('.coluna'); // Encontra a coluna mais próxima da task removida
     if (coluna && !task){
-        coluna.remove(); // Remove a coluna se não houver tasks restantes
+        coluna.remove(); // Remove a coluna
     }
 
+    
     // Atualiza o localStorage
     saveData();
 }
 
+// Salva os dados do quadro no localStorage
 function saveData() {
-    // Seleciona todas as colunas existentes
     const colunas = document.querySelectorAll('.coluna');
     const boardData = [];
 
-    // Itera sobre as colunas e coleta os dados
     colunas.forEach(coluna => {
         const colunaHead = coluna.querySelector('.colunaHead h2').innerText.trim();
         const tasks = [];
         const taskElements = coluna.querySelectorAll('.task');
 
-        // Itera sobre as tasks dentro da coluna
         taskElements.forEach(task => {
-            const taskHead = task.querySelector('.taskHead');
+            const taskHead = task.querySelector('.taskHead')
             const taskBody = task.querySelector('.taskBody').innerText.trim();
             const deleteButton = taskHead.querySelector('.deleteTask');
             if (deleteButton) deleteButton.remove();
@@ -125,30 +131,56 @@ function saveData() {
             if (deleteButton) taskHead.appendChild(deleteButton);
         });
 
-        // Adiciona os dados da coluna ao array
         boardData.push({ columnTitle: colunaHead, tasks });
     });
 
-    // Salva os dados no localStorage
-    localStorage.setItem('boardData', JSON.stringify(boardData));
-}
-window.onload = function () {
-    const savedBoardData = JSON.parse(localStorage.getItem('boardData')) || [];
+    const currentBoardName = document.querySelector('.tituloQuadro').innerText.trim();
+    const allBoards = JSON.parse(localStorage.getItem('boards')) || {};
+    allBoards[currentBoardName] = boardData;
 
-    savedBoardData.forEach(colunaData => {
+    localStorage.setItem('boards', JSON.stringify(allBoards));
+}
+
+// Carrega os quadros no dropdown
+function carregarQuadrosNoDropdown() {
+    const dropdown = document.querySelector('.dropDownContent');
+
+    const allBoards = JSON.parse(localStorage.getItem('boards')) || {};
+
+    Object.keys(allBoards).forEach(boardName => {
+        const button = document.createElement('a');
+        button.textContent = boardName;
+        button.href = '#';
+        button.onclick = () => mostrarQuadro(boardName);
+        dropdown.appendChild(button);
+    });
+}
+
+// Mostra o quadro selecionado e carrega suas tasks
+function mostrarQuadro(nome) {
+    const teste = document.getElementById('QUADRO');
+    document.querySelector('.tituloQuadro').innerText = nome;
+    teste.style.display = 'flex';
+
+    const allBoards = JSON.parse(localStorage.getItem('boards')) || {};
+    const boardData = allBoards[nome] || [];
+
+    const quadro = document.querySelector('.quadro');
+    quadro.innerHTML = ''; // Limpa o quadro antes de carregar
+
+    boardData.forEach(colunaData => {
         const novaColuna = document.createElement('div');
         novaColuna.className = 'coluna';
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true" oninput="saveData()">${colunaData.columnTitle}</h2>
                 <span class="deleteColuna" onclick="remover(this)">X</span>
-            </div>
+                </div>
             <div class="colunaBody"></div>
         `;
 
         const colunaBody = novaColuna.querySelector('.colunaBody');
 
-        // Adiciona as tasks à coluna
         colunaData.tasks.forEach(task => {
             const novaTask = document.createElement('div');
             novaTask.className = 'task';
@@ -162,19 +194,25 @@ window.onload = function () {
             colunaBody.appendChild(novaTask);
         });
 
-        // Cria o botão de adicionar task dinamicamente
         const addTaskButton = document.createElement('div');
         addTaskButton.className = 'adicionarTask';
         addTaskButton.textContent = 'Adicionar Task';
-        addTaskButton.addEventListener('click', function () {
-            adicionarTask(addTaskButton);
-        });
+        addTaskButton.onclick = () => adicionarTask(addTaskButton);
 
         colunaBody.appendChild(addTaskButton);
-
-        // Insere a nova coluna antes do botão de adicionar coluna
-        document.getElementById('colunaBotao').insertAdjacentElement('beforebegin', novaColuna);
+        quadro.appendChild(novaColuna);
     });
-};
 
-   
+    const addColunaButton = document.createElement('div');
+    addColunaButton.className = 'adicionarC';
+    addColunaButton.id = 'colunaBotao';
+    addColunaButton.textContent = 'Adicionar coluna +';
+    addColunaButton.onclick = addColuna;
+
+    quadro.appendChild(addColunaButton);
+}
+
+// Carrega os quadros no dropdown ao iniciar a página
+window.onload = function () {
+    carregarQuadrosNoDropdown();
+};

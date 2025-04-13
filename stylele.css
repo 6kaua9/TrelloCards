@@ -118,6 +118,8 @@ a{
     width: 128px; /* Aumentado em 60% (80px * 1.6) */
     height: 2em;
 }
+
+
 .novoQuadro button:hover{
     cursor: pointer;
 }
@@ -237,6 +239,7 @@ a{
 
 .deleteTask{
     background-color: #ff0000;
+    padding: 2px;
     color: white;
     align-items:center;
     float: right;
