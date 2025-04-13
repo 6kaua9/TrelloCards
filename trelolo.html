@@ -12,32 +12,44 @@
         <h2>Tralha</h2>
     <div class="botoes">
         <button id="btnCriar" class="dropbtn" onclick="botaoNovoQuadro()">Novo Quadro</button>
+            
 
         <div class="dropDown">
             <button  id="btn" class="dropbtn">Quadros</button>
             <div class="ddc">
                 <div class="dropDownContent">
+                    <a href="#">Quadro 1</a>
                 </div>
             </div>
         </div>
     </div>
     </div>
+
+    <div id="telaInicial">
+        <h1>Bem-vindo ao Trello</h1>
+        <button onclick="botaoNovoQuadro()">Criar Novo Quadro</button>
+    </div>
+
     <div id="QUADRO" style="display: none;">
         <div class="tituloQuadro">
-
+            <span>Quadro de Testes</span>
+            <button class="saveboardBtn" onclick="salvarQuadro()" >Salvar Quadro</button>
+            <button class="excluirBoardBtn" onclick="excluirQuadro()">Excluir Quadro</button>
+            <span class="closeQuadro" onclick="fecharQuadro()">X</span>
         </div>
-
+        
         <div class="quadro">
+           <!--    MANTER PARA TESTES
             <div id="coluna" class="coluna">
                 <div class="colunaHead">
                     <h2>Backlog</h2>
                 </div>
                     <div class="colunaBody">
-                    <div class="adicionarTask" id="addTask" onclick="adicionarTask(botao)">
+                    <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">
                     Adicionar Task
                     </div>
                 </div>
-            </div>
+            </div>  -->
             <div onclick="addColuna()" class="adicionarC" id="colunaBotao">
                 Adicionar coluna + 
             </div>

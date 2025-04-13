@@ -1,3 +1,4 @@
+
 *{
     font-family: sans-serif;
 }
@@ -118,8 +119,6 @@ a{
     width: 128px; /* Aumentado em 60% (80px * 1.6) */
     height: 2em;
 }
-
-
 .novoQuadro button:hover{
     cursor: pointer;
 }
@@ -146,7 +145,9 @@ a{
     background-color: rgb(252, 252, 218);
    /*background-color: #88b0d3; Fundo azul claro*/
     width: 99%;
-    height: 500px;
+    min-height: 500px;
+    height: auto;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -172,6 +173,7 @@ a{
     width: 220px;
     height: 98%;
     margin-left: 15px;
+    margin-bottom: 15px;
     
 }
 
@@ -202,6 +204,7 @@ a{
     height: 30px;
     color: white;
     background-color: #144272;
+    margin-bottom: 8px;
    
 }
 
@@ -239,7 +242,6 @@ a{
 
 .deleteTask{
     background-color: #ff0000;
-    padding: 2px;
     color: white;
     align-items:center;
     float: right;
@@ -255,16 +257,109 @@ a{
     top: 0px;
     right: 0px;
     text-align: center;
+    border-radius: 3px;
+}
+.deleteColuna:hover{
+ cursor: pointer;
+ box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.tituloQuadro{
+.closeQuadro {
+    margin-left: 10px;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.closeQuadro:hover {
+    background-color: #cc0000;
+    
+}
+
+.tituloQuadro {
+    display: flex;
+    flex: 1;
+    align-items: center; /* Alinha verticalmente o título e o botão */
+    justify-content: space-between; /* Coloca o título à esquerda e o botão à direita */
     color: aliceblue;
     font-weight: bold;
-    font-size:xx-large;
+    font-size: xx-large;
     margin-top: 15px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #QUADRO{
+    
     flex-direction: column;
+}
+
+.saveboardBtn {
+    margin-left: auto; /* Empurra o botão para o extremo direito */
+    background-color: #205295;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    
+}
+.saveboardBtn:hover {
+    background-color: #144272;
+    box-shadow: 0px 8px 16px black;
+}
+
+.excluirBoardBtn:hover{
+    background-color: #144272;
+    box-shadow: 0px 8px 16px black;
+}
+.excluirBoardBtn{
+    background-color: #205295;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+#telaInicial {
+    display: flex; /* Usa Flexbox para centralizar */
+    flex-direction: column; /* Alinha os elementos verticalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    height: 100vh; /* Ocupa toda a altura da tela */
+    text-align: center; /* Centraliza o texto */
+    background-color: #f4f4f4; /* Cor de fundo clara */
+    font-family: Arial, sans-serif; /* Fonte padrão */
+}
+
+#telaInicial h1 {
+    font-size: 2.5rem; /* Tamanho maior para o título */
+    color: #205295; /* Cor do título */
+    margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+#telaInicial button {
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    font-size: 1rem; /* Tamanho da fonte do botão */
+    background-color: #205295; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border: none; /* Remove a borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Mostra o cursor de clique */
+    transition: background-color 0.3s ease; /* Animação suave */
+}
+
+#telaInicial button:hover {
+    background-color: #144272; /* Cor ao passar o mouse */
 }
