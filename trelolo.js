@@ -66,7 +66,7 @@ function adicionarTask(botao){
     novaTask.className = 'task';
     novaTask.innerHTML = `
         <div class="taskHead" contenteditable="true">Nova Task
-        <span class="deleteTask" onclick="remover(this)">X</span>
+        <span class="deleteTask" onclick="removerTask(this)">X</span>
         </div>
         <div class="taskBody" contenteditable="true">Descrição da nova task</div>
     `;
@@ -79,7 +79,7 @@ function addColuna(){
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
     <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
-    <span class="deleteColuna" onclick="remover(this)">X</span>
+    <span class="deleteColuna" onclick="removerColuna(this)">X</span>
     </div>
     <div class="colunaBody">
     <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
