@@ -6,6 +6,16 @@ function criarQuadro() {
         return;
     }
 
+    // Recupera os quadros salvos no localStorage
+    const quadrosSalvos = JSON.parse(localStorage.getItem('quadros')) || [];
+
+    // Verifica se já existe um quadro com o mesmo nome
+    const quadroExistente = quadrosSalvos.some(quadro => quadro.nome === nomeQuadro);
+    if (quadroExistente) {
+        alert('Já existe um quadro com esse nome. Por favor, escolha outro nome.');
+        return;
+    }
+
     const novoQuadro = document.getElementById('novoQuadro');
     novoQuadro.style.display = 'none';
 
@@ -30,7 +40,6 @@ function criarQuadro() {
     addColunaButton.innerText = 'Adicionar coluna +';
     addColunaButton.onclick = addColuna;
     quadroContainer.appendChild(addColunaButton);
-
 }
 
 function botaoNovoQuadro(){
