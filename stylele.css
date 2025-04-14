@@ -245,6 +245,7 @@ a{
     color: white;
     align-items:center;
     float: right;
+    cursor: pointer;
 }
 
 .deleteColuna {
