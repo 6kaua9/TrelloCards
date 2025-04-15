@@ -66,7 +66,7 @@ function adicionarTask(botao){
     novaTask.className = 'task';
     novaTask.innerHTML = `
         <div class="taskHead" contenteditable="true">Nova Task
-        <span class="deleteTask" onclick="remover(this)">X</span>
+        <span class="deleteTask" onclick="removerTask(this)">X</span>
         </div>
         <div class="taskBody" contenteditable="true">Descrição da nova task</div>
     `;
@@ -79,7 +79,7 @@ function addColuna(){
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
     <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
-    <span class="deleteColuna" onclick="remover(this)">X</span>
+    <span class="deleteColuna" onclick="removerColuna(this)">X</span>
     </div>
     <div class="colunaBody">
     <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
@@ -120,7 +120,7 @@ window.onload = function () {
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${colunaData.columnTitle}</h2>
-                <span class="deleteColuna" onclick="remover(this)">X</span>
+                <span class="deleteColuna" onclick="removerColuna(this)">X</span>
             </div>
             <div class="colunaBody"></div>
         `;
@@ -176,7 +176,8 @@ function salvarQuadro() {
         };
 
         tasks.forEach(task => {
-            const taskTitulo = task.querySelector('.taskHead').innerText.trim();
+            const taskTitulo = task.querySelector('.taskHead').childNodes[0].nodeValue.trim();
+            
             const taskDescricao = task.querySelector('.taskBody').innerText.trim();
             colunaData.tasks.push({
                 titulo: taskTitulo,
@@ -259,6 +260,7 @@ function carregarQuadro(index) {
             const novaTask = document.createElement('div');
             novaTask.className = 'task';
             novaTask.innerHTML = `
+                <span class="deleteTask onclick="removerTask(this)">X</span>
                 <div class="taskHead" contenteditable="true">${task.titulo}</div>
                 <div class="taskBody" contenteditable="true">${task.descricao}</div>
             `;
