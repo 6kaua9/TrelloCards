@@ -3,7 +3,7 @@ function criarQuadro() {
 
     if (!nomeQuadro) {
         alert('Por favor, insira um nome para o quadro.');
-        return;
+        return;''
     }
 
     // Recupera os quadros salvos no localStorage
@@ -16,9 +16,11 @@ function criarQuadro() {
         return;
     }
 
-    const novoQuadro = document.getElementById('novoQuadro');
-    novoQuadro.style.display = 'none';
-
+    //fecha popup e limpa input
+    document.getElementById('nomeQuadro').value = '';
+    const fechaQuadro = document.getElementById('novoQuadro');
+    fechaQuadro.style.display = 'none';
+    
     // Exibe o quadro
     const quadro = document.getElementById('QUADRO');
     quadro.style.display = 'flex';
@@ -28,21 +30,17 @@ function criarQuadro() {
     // Atualiza o título do quadro
     document.querySelector('.tituloQuadro span').innerText = nomeQuadro;
 
-    // Limpa o campo de entrada
-    document.getElementById('nomeQuadro').value = '';
-
     // Garante que o botão "Adicionar Coluna" esteja presente
     const quadroContainer = document.querySelector('.quadro');
-    quadroContainer.innerHTML = ''; // Limpa o conteúdo do quadro
-    const addColunaButton = document.createElement('div');
-    addColunaButton.className = 'adicionarC';
-    addColunaButton.id = 'colunaBotao';
-    addColunaButton.innerText = 'Adicionar coluna +';
-    addColunaButton.onclick = addColuna;
-    quadroContainer.appendChild(addColunaButton);
+    quadroContainer.innerHTML = `
+    <div onclick="addColuna()" class="adicionarC" id="colunaBotao">
+                Adicionar coluna + 
+            </div>
+    `; // Limpa se tiver conteudo salvo do ultimo quadro criado e adiciona botao adicionar coluna
+
 }
 
-function botaoNovoQuadro(){
+function botaoNovoQuadro(){ //pop up
     const doc = document.getElementById("novoQuadro");
 
     const telaInicial = document.getElementById('telaInicial');
@@ -52,11 +50,9 @@ function botaoNovoQuadro(){
 
         if(doc.style.display === 'none'){
             doc.style.display = 'flex';
-            console.log(" Visivel");
             
         } else if(doc.style.display === "flex"){
             doc.style.display = "none";
-        
         }
 }
 
@@ -65,10 +61,10 @@ function adicionarTask(botao){
     const novaTask = document.createElement('div');
     novaTask.className = 'task';
     novaTask.innerHTML = `
-        <div class="taskHead" contenteditable="true">Nova Task
-        <span class="deleteTask" onclick="removerTask(this)">X</span>
+        <div class="taskHead" contenteditable="true"> Titulo task
+            <button class="deleteTask" contenteditable="false" onclick="removerTask(this)">X</button>
         </div>
-        <div class="taskBody" contenteditable="true">Descrição da nova task</div>
+            <div class="taskBody" contenteditable="true">Descrição da nova task</div>
     `;
     coluna.querySelector('.colunaBody').insertBefore(novaTask, botao); // Insere a nova task antes do botão
 }
@@ -79,7 +75,7 @@ function addColuna(){
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
     <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
-    <span class="deleteColuna" onclick="removerColuna(this)">X</span>
+    <button class="deleteColuna" onclick="removerColuna(this)">X</button>
     </div>
     <div class="colunaBody">
     <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
@@ -110,51 +106,6 @@ function removerTask(element) {
     }
 
 }
-
-window.onload = function () {
-    const savedBoardData = JSON.parse(localStorage.getItem('boardData')) || [];
-
-    savedBoardData.forEach(colunaData => {
-        const novaColuna = document.createElement('div');
-        novaColuna.className = 'coluna';
-        novaColuna.innerHTML = `
-            <div class="colunaHead">
-                <h2 contenteditable="true">${colunaData.columnTitle}</h2>
-                <span class="deleteColuna" onclick="removerColuna(this)">X</span>
-            </div>
-            <div class="colunaBody"></div>
-        `;
-
-        const colunaBody = novaColuna.querySelector('.colunaBody');
-
-        // Adiciona as tasks à coluna
-        colunaData.tasks.forEach(task => {
-            const novaTask = document.createElement('div');
-            novaTask.className = 'task';
-            novaTask.innerHTML = `
-                <div class="taskHead" contenteditable="true">
-                    ${task.title}
-                    <span class="deleteTask" onclick="removerTask(this)">X</span>
-                </div>
-                <div class="taskBody" contenteditable="true">${task.description}</div>
-            `;
-            colunaBody.appendChild(novaTask);
-        });
-
-        // Cria o botão de adicionar task dinamicamente
-        const addTaskButton = document.createElement('div');
-        addTaskButton.className = 'adicionarTask';
-        addTaskButton.textContent = 'Adicionar Task';
-        addTaskButton.addEventListener('click', function () {
-            adicionarTask(addTaskButton);
-        });
-
-        colunaBody.appendChild(addTaskButton);
-
-        // Insere a nova coluna antes do botão de adicionar coluna
-        document.getElementById('colunaBotao').insertAdjacentElement('beforebegin', novaColuna);
-    });
-};
 
 function salvarQuadro() {
     // Captura o nome do quadro
@@ -250,7 +201,7 @@ function carregarQuadro(index) {
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${coluna.titulo}</h2>
-                <span class="deleteColuna" onclick="removerColuna(this)">X</span>
+                <button class="deleteColuna" onclick="removerColuna(this)">X</button>
             </div>
             <div class="colunaBody"></div>
         `;
@@ -260,8 +211,10 @@ function carregarQuadro(index) {
             const novaTask = document.createElement('div');
             novaTask.className = 'task';
             novaTask.innerHTML = `
-                <span class="deleteTask onclick="removerTask(this)">X</span>
-                <div class="taskHead" contenteditable="true">${task.titulo}</div>
+            <div class="taskHead" contenteditable="true">${task.titulo}
+            <button id="minimiza" class="minimiza" onclick="minimizar(this)">-</button>
+            <button class="deleteTask" onclick="removerTask(this)">X</button>
+            </div>
                 <div class="taskBody" contenteditable="true">${task.descricao}</div>
             `;
             colunaBody.appendChild(novaTask);
@@ -331,6 +284,18 @@ function fecharQuadro() {
     // Oculta o quadro
     document.getElementById('QUADRO').style.display = 'none';
 
-    // Exibe a tela inicial
-    document.getElementById('telaInicial').style.display = 'flex';
+}
+
+//a fazer
+function minimizar(botao){
+ const corpo = botao.closest('.task').querySelector('.taskBody');
+ const estiloCorpo = window.getComputedStyle(corpo).display; //obtem o estilo computado
+ if(estiloCorpo !== 'none'){
+    corpo.style.display = 'none';
+    console.log('testuda minimizada');
+ }else{
+    corpo.style.display = 'block';
+    console.log('testuda amostrada');
+ }
+  
 }
