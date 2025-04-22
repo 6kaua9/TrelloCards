@@ -62,7 +62,8 @@ function adicionarTask(botao){
     novaTask.className = 'task';
     novaTask.innerHTML = `
         <div class="taskHead" contenteditable="true"> Titulo task
-            <button class="deleteTask" contenteditable="false" onclick="removerTask(this)">X</button>
+            <button id="minimiza" contenteditable="false" class="minimiza" onclick="minimizar(this)"><img src=minus-big-symbol.png></button>
+            <button class="deleteTask" contenteditable="false" onclick="removerTask(this)"><img src=botao-x.png></button>
         </div>
             <div class="taskBody" contenteditable="true">Descrição da nova task</div>
     `;
@@ -75,7 +76,7 @@ function addColuna(){
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
     <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
-    <button class="deleteColuna" onclick="removerColuna(this)">X</button>
+    <button class="deleteColuna" onclick="removerColuna(this)"><img src=botao-x.png></button>
     </div>
     <div class="colunaBody">
     <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
@@ -201,7 +202,7 @@ function carregarQuadro(index) {
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${coluna.titulo}</h2>
-                <button class="deleteColuna" onclick="removerColuna(this)">X</button>
+                <button class="deleteColuna" onclick="removerColuna(this)"><img src=botao-x.png></button>
             </div>
             <div class="colunaBody"></div>
         `;
@@ -212,8 +213,8 @@ function carregarQuadro(index) {
             novaTask.className = 'task';
             novaTask.innerHTML = `
             <div class="taskHead" contenteditable="true">${task.titulo}
-            <button id="minimiza" class="minimiza" onclick="minimizar(this)">-</button>
-            <button class="deleteTask" onclick="removerTask(this)">X</button>
+            <button id="minimiza" contenteditable="false" class="minimiza" onclick="minimizar(this)"><img src=minus-big-symbol.png></button>
+            <button class="deleteTask" contenteditable="false" onclick="removerTask(this)"><img src=botao-x.png></button>
             </div>
                 <div class="taskBody" contenteditable="true">${task.descricao}</div>
             `;

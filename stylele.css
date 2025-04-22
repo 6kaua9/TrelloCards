@@ -6,6 +6,10 @@ body{
     background-color: #144272;
 }
 
+img{
+    width: 14px;
+}
+
 /*Barra de navegação e pop up Novo quadro*/
 
 .navbar{
@@ -232,8 +236,6 @@ a{
     border: 2px solid black;
     background-color: #406fa1 ;
     color: white;
-    width: 200px;
-    min-height: 100px;
     height: auto;
     margin-bottom: 15px;
 }
@@ -244,13 +246,14 @@ a{
     color: aliceblue;
     position: relative;
     min-height: 22px;
+    min-width: 200px;
     height: auto;
 }
 
 .taskBody{
     padding: 5px;
     margin-top: 5px;
-    overflow-y: auto;
+    min-height: 70px;
     
 }
 
