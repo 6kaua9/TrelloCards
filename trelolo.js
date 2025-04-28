@@ -60,8 +60,10 @@ function adicionarTask(botao){
     const coluna = botao.closest('.coluna'); // Encontra a coluna mais próxima do botão clicado
     const novaTask = document.createElement('div');
     novaTask.className = 'task';
+    novaTask.draggable = 'true';
     novaTask.innerHTML = `
         <div class="taskHead" contenteditable="true"> Titulo task
+        <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
             <button class="deleteTask" contenteditable="false" onclick="removerTask(this)">X</button>
         </div>
             <div class="taskBody" contenteditable="true">Descrição da nova task</div>
@@ -70,11 +72,11 @@ function adicionarTask(botao){
 }
 
 function addColuna(){
-    console.log("funcionando");
     const novaColuna = document.createElement("div");
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
     <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
+    <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
     <button class="deleteColuna" onclick="removerColuna(this)">X</button>
     </div>
     <div class="colunaBody">
@@ -201,6 +203,7 @@ function carregarQuadro(index) {
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${coluna.titulo}</h2>
+                <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
                 <button class="deleteColuna" onclick="removerColuna(this)">X</button>
             </div>
             <div class="colunaBody"></div>
@@ -210,10 +213,11 @@ function carregarQuadro(index) {
         coluna.tasks.forEach(task => {
             const novaTask = document.createElement('div');
             novaTask.className = 'task';
+            novaTask.draggable = 'true';
             novaTask.innerHTML = `
             <div class="taskHead" contenteditable="true">${task.titulo}
-            <button id="minimiza" class="minimiza" onclick="minimizar(this)">-</button>
             <button class="deleteTask" onclick="removerTask(this)">X</button>
+            <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
             </div>
                 <div class="taskBody" contenteditable="true">${task.descricao}</div>
             `;
@@ -287,15 +291,110 @@ function fecharQuadro() {
 }
 
 //a fazer
-function minimizar(botao){
- const corpo = botao.closest('.task').querySelector('.taskBody');
- const estiloCorpo = window.getComputedStyle(corpo).display; //obtem o estilo computado
- if(estiloCorpo !== 'none'){
-    corpo.style.display = 'none';
-    console.log('testuda minimizada');
- }else{
-    corpo.style.display = 'block';
-    console.log('testuda amostrada');
- }
-  
+function minimizarTask(botao) {
+    const corpo = botao.closest('.task').querySelector('.taskBody'); // Garante que está acessando o taskBody correto
+    const estiloCorpo = window.getComputedStyle(corpo).display; // Obtém o estilo computado
+
+    if (estiloCorpo !== 'none') {
+        corpo.style.display = 'none'; // Oculta o corpo da task
+    } else {
+        corpo.style.display = 'block'; // Mostra o corpo da task
+    }
 }
+
+function minimizarLista(botao){
+    const lista = botao.closest('.coluna').querySelector('.colunaBody');
+    const estilo = window.getComputedStyle(lista).display;
+
+    if(estilo !== 'none'){
+        lista.style.display = 'none';
+    }else{
+        lista.style.display = 'block';
+    }
+}
+
+/* drag and drop ideia 1;
+const boxes = document.querySelectorAll('.colunaBody'),
+ image = document.querySelector(".task");
+
+ boxes.forEach((box) => {
+    box.addEventListener('dragover', e=>{
+        e.preventDefault();
+        console.log("dragover");
+    });
+    box.addEventListener('drop', () => {
+        box.appendChild(image);
+        console.log("drop");
+    })
+ });*/ 
+
+ 
+
+// Adiciona eventos de drag and drop para cada task
+
+document.addEventListener('DOMContentLoaded', () => {
+    const quadro = document.querySelector('.quadro'); // Elemento pai que contém as colunas
+    let draggedTask = null; // Armazena a task que está sendo arrastada
+    let placeholder = document.createElement('div'); // Placeholder para indicar a posição
+    placeholder.className = 'placeholder'; // Classe para estilizar o placeholder
+
+    // Delegação de eventos para dragstart
+    quadro.addEventListener('dragstart', (e) => {
+        if (e.target.classList.contains('task')) {
+            console.log("dragstart");
+            draggedTask = e.target; // Armazena a task que está sendo arrastada
+            draggedTask.classList.add('dragging'); // Adiciona uma classe para estilizar a task arrastada
+            setTimeout(() => draggedTask.style.display = 'none', 0); // Oculta a task enquanto é arrastada
+        }
+    });
+
+    // Delegação de eventos para dragend
+    quadro.addEventListener('dragend', (e) => {
+        if (e.target.classList.contains('task')) {
+            draggedTask.style.display = 'block'; // Mostra a task novamente
+            draggedTask.classList.remove('dragging'); // Remove a classe de estilização
+            draggedTask = null; // Limpa a referência da task arrastada
+            if (placeholder.parentNode) {
+                placeholder.parentNode.removeChild(placeholder); // Remove o placeholder
+            }
+        }
+    });
+
+    // Delegação de eventos para dragover
+    quadro.addEventListener('dragover', (e) => {
+        e.preventDefault(); // Permite o drop
+        if (e.target.classList.contains('colunaBody')) {
+            console.log("dragover");
+            const afterElement = getDragAfterElement(e.target, e.clientY); // Obtém o elemento após o qual o placeholder será inserido
+            if (afterElement == null) {
+                e.target.appendChild(placeholder); // Adiciona o placeholder no final da coluna
+            } else {
+                e.target.insertBefore(placeholder, afterElement); // Adiciona o placeholder antes do elemento encontrado
+            }
+        }
+    });
+
+    // Delegação de eventos para drop
+    quadro.addEventListener('drop', (e) => {
+        if (e.target.classList.contains('colunaBody')) {
+            if (placeholder.parentNode) {
+                placeholder.parentNode.replaceChild(draggedTask, placeholder); // Substitui o placeholder pela task arrastada
+            }
+        }
+    });
+
+    // Função para obter o elemento após o qual o placeholder será inserido
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.task:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2; // Calcula a distância do mouse ao centro do elemento
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+});
