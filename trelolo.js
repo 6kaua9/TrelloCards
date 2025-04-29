@@ -60,8 +60,10 @@ function adicionarTask(botao){
     const coluna = botao.closest('.coluna'); // Encontra a coluna mais próxima do botão clicado
     const novaTask = document.createElement('div');
     novaTask.className = 'task';
+    novaTask.draggable = 'true';
     novaTask.innerHTML = `
         <div class="taskHead" contenteditable="true"> Titulo task
+        <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
             <button class="deleteTask" contenteditable="false" onclick="removerTask(this)">X</button>
         </div>
             <div class="taskBody" contenteditable="true">Descrição da nova task</div>
@@ -70,11 +72,11 @@ function adicionarTask(botao){
 }
 
 function addColuna(){
-    console.log("funcionando");
     const novaColuna = document.createElement("div");
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
     <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
+    <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
     <button class="deleteColuna" onclick="removerColuna(this)">X</button>
     </div>
     <div class="colunaBody">
@@ -198,9 +200,11 @@ function carregarQuadro(index) {
     quadro.colunas.forEach(coluna => {
         const novaColuna = document.createElement('div');
         novaColuna.className = 'coluna';
+        novaColuna.draggable = 'true';
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${coluna.titulo}</h2>
+                <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
                 <button class="deleteColuna" onclick="removerColuna(this)">X</button>
             </div>
             <div class="colunaBody"></div>
@@ -210,10 +214,11 @@ function carregarQuadro(index) {
         coluna.tasks.forEach(task => {
             const novaTask = document.createElement('div');
             novaTask.className = 'task';
+            novaTask.draggable = 'true';
             novaTask.innerHTML = `
             <div class="taskHead" contenteditable="true">${task.titulo}
-            <button id="minimiza" class="minimiza" onclick="minimizar(this)">-</button>
             <button class="deleteTask" onclick="removerTask(this)">X</button>
+            <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
             </div>
                 <div class="taskBody" contenteditable="true">${task.descricao}</div>
             `;
@@ -287,15 +292,40 @@ function fecharQuadro() {
 }
 
 //a fazer
-function minimizar(botao){
- const corpo = botao.closest('.task').querySelector('.taskBody');
- const estiloCorpo = window.getComputedStyle(corpo).display; //obtem o estilo computado
- if(estiloCorpo !== 'none'){
-    corpo.style.display = 'none';
-    console.log('testuda minimizada');
- }else{
-    corpo.style.display = 'block';
-    console.log('testuda amostrada');
- }
-  
+function minimizarTask(botao) {
+    const corpo = botao.closest('.task').querySelector('.taskBody'); // Garante que está acessando o taskBody correto
+    const estiloCorpo = window.getComputedStyle(corpo).display; // Obtém o estilo computado
+
+    if (estiloCorpo !== 'none') {
+        corpo.style.display = 'none'; // Oculta o corpo da task
+    } else {
+        corpo.style.display = 'block'; // Mostra o corpo da task
+    }
 }
+
+function minimizarLista(botao){
+    const lista = botao.closest('.coluna').querySelector('.colunaBody');
+    const estilo = window.getComputedStyle(lista).display;
+
+    if(estilo !== 'none'){
+        lista.style.display = 'none';
+    }else{
+        lista.style.display = 'block';
+    }
+}
+
+/* drag and drop ideia 1;
+const boxes = document.querySelectorAll('.colunaBody'),
+ image = document.querySelector(".task");
+
+ boxes.forEach((box) => {
+    box.addEventListener('dragover', e=>{
+        e.preventDefault();
+        console.log("dragover");
+    });
+    box.addEventListener('drop', () => {
+        box.appendChild(image);
+        console.log("drop");
+    })
+ });*/ 
+
