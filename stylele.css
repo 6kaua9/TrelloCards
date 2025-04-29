@@ -169,8 +169,7 @@ a{
     width: 180px;
     height: 30px;
     background-color: #205295;
-    color: white
-
+    color: white;
 }
 
 .coluna{
@@ -383,9 +382,19 @@ a{
 }
 
 .placeholder {
-    height: 50px; /* Altura do espaço reservado */
+    height: 120px; /* Altura do espaço reservado */
     width: 190px;
     background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo para destacar */
     border: 2px dashed #ccc; /* Borda para indicar a posição */
     margin: 5px 0; /* Espaçamento */
+}
+
+.column-placeholder {
+    width: 200px; /* Largura do espaço reservado */
+    height: 300px; /* Altura total da coluna */
+    background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo para destacar */
+    border: 2px dashed #ccc; /* Borda para indicar a posição */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }

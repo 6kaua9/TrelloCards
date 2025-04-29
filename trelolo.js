@@ -200,6 +200,7 @@ function carregarQuadro(index) {
     quadro.colunas.forEach(coluna => {
         const novaColuna = document.createElement('div');
         novaColuna.className = 'coluna';
+        novaColuna.draggable = 'true';
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${coluna.titulo}</h2>
@@ -328,73 +329,3 @@ const boxes = document.querySelectorAll('.colunaBody'),
     })
  });*/ 
 
- 
-
-// Adiciona eventos de drag and drop para cada task
-
-document.addEventListener('DOMContentLoaded', () => {
-    const quadro = document.querySelector('.quadro'); // Elemento pai que contém as colunas
-    let draggedTask = null; // Armazena a task que está sendo arrastada
-    let placeholder = document.createElement('div'); // Placeholder para indicar a posição
-    placeholder.className = 'placeholder'; // Classe para estilizar o placeholder
-
-    // Delegação de eventos para dragstart
-    quadro.addEventListener('dragstart', (e) => {
-        if (e.target.classList.contains('task')) {
-            console.log("dragstart");
-            draggedTask = e.target; // Armazena a task que está sendo arrastada
-            draggedTask.classList.add('dragging'); // Adiciona uma classe para estilizar a task arrastada
-            setTimeout(() => draggedTask.style.display = 'none', 0); // Oculta a task enquanto é arrastada
-        }
-    });
-
-    // Delegação de eventos para dragend
-    quadro.addEventListener('dragend', (e) => {
-        if (e.target.classList.contains('task')) {
-            draggedTask.style.display = 'block'; // Mostra a task novamente
-            draggedTask.classList.remove('dragging'); // Remove a classe de estilização
-            draggedTask = null; // Limpa a referência da task arrastada
-            if (placeholder.parentNode) {
-                placeholder.parentNode.removeChild(placeholder); // Remove o placeholder
-            }
-        }
-    });
-
-    // Delegação de eventos para dragover
-    quadro.addEventListener('dragover', (e) => {
-        e.preventDefault(); // Permite o drop
-        if (e.target.classList.contains('colunaBody')) {
-            console.log("dragover");
-            const afterElement = getDragAfterElement(e.target, e.clientY); // Obtém o elemento após o qual o placeholder será inserido
-            if (afterElement == null) {
-                e.target.appendChild(placeholder); // Adiciona o placeholder no final da coluna
-            } else {
-                e.target.insertBefore(placeholder, afterElement); // Adiciona o placeholder antes do elemento encontrado
-            }
-        }
-    });
-
-    // Delegação de eventos para drop
-    quadro.addEventListener('drop', (e) => {
-        if (e.target.classList.contains('colunaBody')) {
-            if (placeholder.parentNode) {
-                placeholder.parentNode.replaceChild(draggedTask, placeholder); // Substitui o placeholder pela task arrastada
-            }
-        }
-    });
-
-    // Função para obter o elemento após o qual o placeholder será inserido
-    function getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll('.task:not(.dragging)')];
-
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2; // Calcula a distância do mouse ao centro do elemento
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
-            }
-        }, { offset: Number.NEGATIVE_INFINITY }).element;
-    }
-});
