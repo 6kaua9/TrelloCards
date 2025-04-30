@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     quadro.addEventListener('dragstart', (e) => {
         if (e.target.classList.contains('task')) {
             draggedTask = e.target; // Armazena a task que está sendo arrastada
-            draggedTask.classList.add('dragging'); // Adiciona uma classe para estilizar a task arrastada
             setTimeout(() => draggedTask.style.display = 'none', 0); // Oculta a task enquanto é arrastada
         }
     });
@@ -18,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     quadro.addEventListener('dragend', (e) => {
         if (e.target.classList.contains('task')) {
             draggedTask.style.display = 'block'; // Mostra a task novamente
-            draggedTask.classList.remove('dragging'); // Remove a classe de estilização
             draggedTask = null; // Limpa a referência da task arrastada
             if (placeholder.parentNode) {
                 placeholder.parentNode.removeChild(placeholder); // Remove o placeholder
@@ -49,14 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 placeholder.parentNode.replaceChild(draggedTask, placeholder); // Substitui o placeholder pela task arrastada
             }
             draggedTask.style.display = 'block'; // Mostra a task novamente
-            draggedTask.classList.remove('dragging'); // Remove a classe de estilização
             draggedTask = null; // Limpa a referência da task arrastada
         }
     });
 
     // Função para obter o elemento após o qual o placeholder será inserido
     function getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll('.task:not(.dragging)')];
+        const draggableElements = [...container.querySelectorAll('.task')];
 
         return draggableElements.reduce((closest, child) => {
             const box = child.getBoundingClientRect();
@@ -81,16 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
     quadro.addEventListener('dragstart', (e) => {
         if (e.target.classList.contains('coluna')) {
             draggedColumn = e.target; // Armazena a coluna que está sendo arrastada
-            draggedColumn.classList.add('dragging'); // Adiciona uma classe para estilizar a coluna arrastada
             setTimeout(() => draggedColumn.style.display = 'none', 0); // Oculta a coluna enquanto é arrastada
         }
     });
 
     // Delegação de eventos para dragend nas colunas
     quadro.addEventListener('dragend', (e) => {
-        if (e.target.classList.contains('coluna')) {
+        if (draggedColumn) { // Verifica se draggedColumn não é null
             draggedColumn.style.display = 'flex'; // Mostra a coluna novamente
-            draggedColumn.classList.remove('dragging'); // Remove a classe de estilização
             draggedColumn = null; // Limpa a referência da coluna arrastada
             if (columnPlaceholder.parentNode) {
                 columnPlaceholder.parentNode.removeChild(columnPlaceholder); // Remove o placeholder
@@ -101,12 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Delegação de eventos para dragover nas colunas
     quadro.addEventListener('dragover', (e) => {
         e.preventDefault(); // Permite o drop
-        if (draggedColumn && e.target.classList.contains('coluna') && !e.target.classList.contains('dragging')) { // Verifica se é uma coluna sendo arrastada
+        if (draggedColumn) { // Verifica se é uma coluna sendo arrastada
             const afterColumn = getDragAfterElementForColumns(quadro, e.clientX); // Obtém a coluna após a qual o placeholder será inserido
-            const btnColuna = e.target.querySelector('.adicionarC');
+            const addColumnButton = quadro.querySelector('.adicionarC'); // Botão "Adicionar Coluna"
             if (afterColumn == null) {
-                quadro.appendChild(columnPlaceholder); // Adiciona o placeholder no final do quadro
-                quadro.insertBefore(columnPlaceholder, btnColuna);
+                quadro.insertBefore(columnPlaceholder, addColumnButton); // Adiciona o placeholder antes do botão "Adicionar Coluna"
             } else {
                 quadro.insertBefore(columnPlaceholder, afterColumn); // Adiciona o placeholder antes da coluna encontrada
             }
@@ -119,14 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (draggedColumn && columnPlaceholder.parentNode) { // Verifica se é uma coluna sendo arrastada
             columnPlaceholder.parentNode.replaceChild(draggedColumn, columnPlaceholder); // Substitui o placeholder pela coluna arrastada
             draggedColumn.style.display = 'flex'; // Mostra a coluna novamente
-            draggedColumn.classList.remove('dragging'); // Remove a classe de estilização
             draggedColumn = null; // Limpa a referência da coluna arrastada
         }
     });
 
     // Função para obter o elemento após o qual o placeholder será inserido (para colunas)
     function getDragAfterElementForColumns(container, x) {
-        const draggableColumns = [...container.querySelectorAll('.coluna:not(.dragging)')];
+        const draggableColumns = [...container.querySelectorAll('.coluna')];
 
         return draggableColumns.reduce((closest, child) => {
             const box = child.getBoundingClientRect();
