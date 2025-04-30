@@ -45,6 +45,8 @@ function botaoNovoQuadro(){ //pop up
 
     const telaInicial = document.getElementById('telaInicial');
 
+    const quadro = document.getElementById('QUADRO')
+
    
     telaInicial.style.display = 'none';
 
@@ -62,27 +64,33 @@ function adicionarTask(botao){
     novaTask.className = 'task';
     novaTask.draggable = 'true';
     novaTask.innerHTML = `
-        <div class="taskHead" contenteditable="true"> Titulo task
+    <div class="taskHead">
+        <input type="text" class="taskTitleInput" placeholder="Título da Task" />
         <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
-            <button class="deleteTask" contenteditable="false" onclick="removerTask(this)">X</button>
-        </div>
-            <div class="taskBody" contenteditable="true">Descrição da nova task</div>
-    `;
-    coluna.querySelector('.colunaBody').insertBefore(novaTask, botao); // Insere a nova task antes do botão
+        <button class="deleteTask" contenteditable="false" onclick="removerTask(this)">X</button>
+    </div>
+    <div class="taskBody">
+        <textarea class="taskDescriptionInput" placeholder="Descrição da Task"></textarea>
+    </div>
+`;
+coluna.querySelector('.colunaBody').insertBefore(novaTask, botao); // Insere a nova task antes do botão
 }
 
-function addColuna(){
-    const novaColuna = document.createElement("div");
-    novaColuna.className = 'coluna';
-    novaColuna.innerHTML =  `
-    <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
-    <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
-    <button class="deleteColuna" onclick="removerColuna(this)">X</button>
+function addColuna() {
+const novaColuna = document.createElement("div");
+novaColuna.className = 'coluna';
+novaColuna.draggable = 'true';
+novaColuna.innerHTML = `
+    <div class="colunaHead">
+        <input type="text" class="colunaTitleInput" placeholder="Título da Coluna" />
+        <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
+        <button class="deleteColuna" onclick="removerColuna(this)">X</button>
     </div>
     <div class="colunaBody">
-    <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
-    </div>`;
-    document.getElementById('colunaBotao').insertAdjacentElement('beforebegin', novaColuna);
+        <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
+    </div>
+`;
+document.getElementById('colunaBotao').insertAdjacentElement('beforebegin', novaColuna);
 }
 
 function verificarEnter(event) {
@@ -203,7 +211,7 @@ function carregarQuadro(index) {
         novaColuna.draggable = 'true';
         novaColuna.innerHTML = `
             <div class="colunaHead">
-                <h2 contenteditable="true">${coluna.titulo}</h2>
+                <input type="text" class="colunaTitleInput" placeholder="Título da Coluna" value="${coluna.titulo}" />
                 <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
                 <button class="deleteColuna" onclick="removerColuna(this)">X</button>
             </div>
@@ -216,11 +224,14 @@ function carregarQuadro(index) {
             novaTask.className = 'task';
             novaTask.draggable = 'true';
             novaTask.innerHTML = `
-            <div class="taskHead" contenteditable="true">${task.titulo}
-            <button class="deleteTask" onclick="removerTask(this)">X</button>
-            <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
-            </div>
-                <div class="taskBody" contenteditable="true">${task.descricao}</div>
+                <div class="taskHead">
+                    <input type="text" class="taskTitleInput" placeholder="Título da Task" value="${task.titulo}" />
+                    <button class="deleteTask" onclick="removerTask(this)">X</button>
+                    <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
+                </div>
+                <div class="taskBody">
+                    <textarea class="taskDescriptionInput" placeholder="Descrição da Task">${task.descricao}</textarea>
+                </div>
             `;
             colunaBody.appendChild(novaTask);
         });
@@ -286,9 +297,16 @@ function excluirQuadro() {
 }
 
 function fecharQuadro() {
+    // Pergunta ao usuário se ele deseja salvar o quadro
+    const salvar = confirm('Você deseja salvar o quadro antes de fechá-lo?');
+
+    if (salvar) {
+        salvarQuadro(); // Chama a função para salvar o quadro
+    }
+
     // Oculta o quadro
     document.getElementById('QUADRO').style.display = 'none';
-
+    document.getElementById('telaInicial').style.display = 'flex';
 }
 
 //a fazer
@@ -314,18 +332,4 @@ function minimizarLista(botao){
     }
 }
 
-/* drag and drop ideia 1;
-const boxes = document.querySelectorAll('.colunaBody'),
- image = document.querySelector(".task");
-
- boxes.forEach((box) => {
-    box.addEventListener('dragover', e=>{
-        e.preventDefault();
-        console.log("dragover");
-    });
-    box.addEventListener('drop', () => {
-        box.appendChild(image);
-        console.log("drop");
-    })
- });*/ 
 
