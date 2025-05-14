@@ -346,4 +346,3 @@ const boxes = document.querySelectorAll('.colunaBody'),
         console.log("drop");
     })
  });*/ 
-

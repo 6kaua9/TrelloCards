@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Delegação de eventos para drop
+    
     quadro.addEventListener('drop', (e) => {
         e.preventDefault(); // Previne o comportamento padrão do navegador
         if (draggedTask && (e.target.classList.contains('colunaBody') || e.target === placeholder)) { // Verifica se é uma task sendo arrastada
@@ -100,18 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Delegação de eventos para dragover nas colunas
     quadro.addEventListener('dragover', (e) => {
-        e.preventDefault(); // Permite o drop
-        if (draggedColumn && e.target.classList.contains('coluna') && !e.target.classList.contains('dragging')) { // Verifica se é uma coluna sendo arrastada
-            const afterColumn = getDragAfterElementForColumns(quadro, e.clientX); // Obtém a coluna após a qual o placeholder será inserido
-            const btnColuna = e.target.querySelector('.adicionarC');
-            if (afterColumn == null) {
-                quadro.appendChild(columnPlaceholder); // Adiciona o placeholder no final do quadro
-                quadro.insertBefore(columnPlaceholder, btnColuna);
-            } else {
-                quadro.insertBefore(columnPlaceholder, afterColumn); // Adiciona o placeholder antes da coluna encontrada
-            }
+    e.preventDefault(); // Permite o drop
+    if (draggedColumn) { // Verifica se é uma coluna sendo arrastada
+        const afterColumn = getDragAfterElementForColumns(quadro, e.clientX); // Obtém a coluna após a qual o placeholder será inserido
+        const btnColuna = quadro.querySelector('.adicionarC'); // Seleciona o botão "Adicionar Coluna" diretamente do contêiner principal
+
+        if (afterColumn == null) {
+            quadro.insertBefore(columnPlaceholder, btnColuna); // Adiciona o placeholder antes do botão "Adicionar Coluna"
+        } else {
+            quadro.insertBefore(columnPlaceholder, afterColumn); // Adiciona o placeholder antes da coluna encontrada
         }
-    });
+    }
+});
 
     // Delegação de eventos para drop nas colunas
     quadro.addEventListener('drop', (e) => {

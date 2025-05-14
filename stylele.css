@@ -6,10 +6,6 @@ body{
     background-color: #144272;
 }
 
-img{
-    width: 14px;
-}
-
 /*Barra de navegação e pop up Novo quadro*/
 
 .navbar{
@@ -173,7 +169,8 @@ a{
     width: 180px;
     height: 30px;
     background-color: #205295;
-    color: white;
+    color: white
+
 }
 
 .coluna{
@@ -247,20 +244,14 @@ a{
     position: relative;
     width: 200px;
     min-height: 22px;
-    min-width: 200px;
     height: auto;
 }
 
 .taskBody{
     padding: 5px;
     margin-top: 5px;
-<<<<<<< HEAD
-    min-height: 70px;
-    
-=======
     width: 190px;
     min-height: 90px;
->>>>>>> 2e2fb35b05964cb4885d6a08edb6e4de42f519b2
 }
 
 .deleteTask{
@@ -392,19 +383,9 @@ a{
 }
 
 .placeholder {
-    height: 120px; /* Altura do espaço reservado */
+    height: 50px; /* Altura do espaço reservado */
     width: 190px;
     background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo para destacar */
     border: 2px dashed #ccc; /* Borda para indicar a posição */
     margin: 5px 0; /* Espaçamento */
-}
-
-.column-placeholder {
-    width: 200px; /* Largura do espaço reservado */
-    height: 300px; /* Altura total da coluna */
-    background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo para destacar */
-    border: 2px dashed #ccc; /* Borda para indicar a posição */
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
