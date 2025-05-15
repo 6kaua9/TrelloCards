@@ -310,7 +310,12 @@ a{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.saveboardBtn {
+
+.excluirBoardBtn:hover{
+    background-color: #144272;
+    box-shadow: 0px 8px 16px black;
+}
+.excluirBoardBtn{
     margin-left: auto; /* Empurra o botão para o extremo direito */
     background-color: #205295;
     color: white;
@@ -319,26 +324,6 @@ a{
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-    
-}
-.saveboardBtn:hover {
-    background-color: #144272;
-    box-shadow: 0px 8px 16px black;
-}
-
-.excluirBoardBtn:hover{
-    background-color: #144272;
-    box-shadow: 0px 8px 16px black;
-}
-.excluirBoardBtn{
-    background-color: #205295;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-left: 10px;
 }
 
 #telaInicial {

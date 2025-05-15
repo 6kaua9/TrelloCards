@@ -63,13 +63,8 @@ function adicionarTask(botao){
     novaTask.draggable = 'true';
     novaTask.innerHTML = `
         <div class="taskHead" contenteditable="true"> Titulo task
-<<<<<<< HEAD
-            <button id="minimiza" contenteditable="false" class="minimiza" onclick="minimizar(this)"><img src=minus-big-symbol.png></button>
-            <button class="deleteTask" contenteditable="false" onclick="removerTask(this)"><img src=botao-x.png></button>
-=======
         <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
             <button class="deleteTask" contenteditable="false" onclick="removerTask(this)">X</button>
->>>>>>> 2e2fb35b05964cb4885d6a08edb6e4de42f519b2
         </div>
             <div class="taskBody" contenteditable="true">Descrição da nova task</div>
     `;
@@ -81,12 +76,8 @@ function addColuna(){
     novaColuna.className = 'coluna';
     novaColuna.innerHTML =  `
     <div class="colunaHead"><h2 contenteditable="true">Nova Lista</h2>
-<<<<<<< HEAD
-    <button class="deleteColuna" onclick="removerColuna(this)"><img src=botao-x.png></button>
-=======
     <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
     <button class="deleteColuna" onclick="removerColuna(this)">X</button>
->>>>>>> 2e2fb35b05964cb4885d6a08edb6e4de42f519b2
     </div>
     <div class="colunaBody">
     <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
@@ -159,11 +150,11 @@ function salvarQuadro() {
     if (quadroExistenteIndex !== -1) {
         // Substitui o quadro existente
         quadrosSalvos[quadroExistenteIndex] = quadroData;
-        alert('Quadro atualizado com sucesso!');
+       // alert('Quadro atualizado com sucesso!');
     } else {
         // Adiciona o novo quadro
         quadrosSalvos.push(quadroData);
-        alert('Quadro salvo com sucesso!');
+        //alert('Quadro salvo com sucesso!');
     }
 
     // Salva a lista atualizada no localStorage
@@ -213,12 +204,8 @@ function carregarQuadro(index) {
         novaColuna.innerHTML = `
             <div class="colunaHead">
                 <h2 contenteditable="true">${coluna.titulo}</h2>
-<<<<<<< HEAD
-                <button class="deleteColuna" onclick="removerColuna(this)"><img src=botao-x.png></button>
-=======
                 <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarLista(this)">-</button>
-                <button class="deleteColuna" onclick="removerColuna(this)">X</button>
->>>>>>> 2e2fb35b05964cb4885d6a08edb6e4de42f519b2
+                <button class="deleteColuna" onclick="removerColuna(this), salvarQuadro()">X</button>
             </div>
             <div class="colunaBody"></div>
         `;
@@ -230,13 +217,8 @@ function carregarQuadro(index) {
             novaTask.draggable = 'true';
             novaTask.innerHTML = `
             <div class="taskHead" contenteditable="true">${task.titulo}
-<<<<<<< HEAD
-            <button id="minimiza" contenteditable="false" class="minimiza" onclick="minimizar(this)"><img src=minus-big-symbol.png></button>
-            <button class="deleteTask" contenteditable="false" onclick="removerTask(this)"><img src=botao-x.png></button>
-=======
-            <button class="deleteTask" onclick="removerTask(this)">X</button>
+            <button class="deleteTask" onclick="removerTask(this), salvarQuadro()">X</button>
             <button id="minimiza" class="minimiza" contenteditable="false" onclick="minimizarTask(this)">-</button>
->>>>>>> 2e2fb35b05964cb4885d6a08edb6e4de42f519b2
             </div>
                 <div class="taskBody" contenteditable="true">${task.descricao}</div>
             `;
@@ -249,7 +231,9 @@ function carregarQuadro(index) {
          addTaskButton.innerText = 'Adicionar Task';
          addTaskButton.onclick = function () {
              adicionarTask(addTaskButton);
+              salvarQuadro();
          };
+        
          colunaBody.appendChild(addTaskButton);
 
         quadroContainer.appendChild(novaColuna);
@@ -260,7 +244,10 @@ function carregarQuadro(index) {
     addColunaButton.className = 'adicionarC';
     addColunaButton.id = 'colunaBotao';
     addColunaButton.innerText = 'Adicionar coluna +';
-    addColunaButton.onclick = addColuna;
+    addColunaButton.onclick = function(){
+        addColuna();
+        salvarQuadro();
+    } 
     quadroContainer.appendChild(addColunaButton);
     document.getElementById('QUADRO').style.display = 'flex';
 }
