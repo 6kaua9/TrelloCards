@@ -387,6 +387,8 @@ function aplicarTema(corTema) {
     if (corTema) {
         if (corTema.navbar) {
             document.querySelector('.navbar').style.backgroundColor = corTema.navbar;
+            const tituloQuadro = document.getElementById('tituloQuadro');
+            if (tituloQuadro) tituloQuadro.style.backgroundColor = corTema.navbar;
         }
         if (corTema.page) {
             document.body.style.backgroundColor = corTema.page;

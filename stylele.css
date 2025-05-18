@@ -28,6 +28,7 @@ body{
 }
 
 .dropDownContent{
+    position: absolute;
     padding: 3px;
     margin-top: 4px;
     margin-right: 7px;
@@ -35,7 +36,7 @@ body{
     position: absolute;
     background-color: #0e6ba8;
     width: 150px;
-    z-index: 1;
+    z-index: 9999;
     right: 0;
     border: solid 2px black;
     
@@ -150,6 +151,8 @@ a{
 #QUADRO{
     position: relative;
     flex-direction: column;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .quadro{
@@ -167,6 +170,8 @@ a{
     min-height: 500px;
     height: auto;
     gap: 10px;
+    overflow-x: auto;
+    min-width: fit-content;
 }
 
 .adicionarC{
@@ -315,11 +320,22 @@ a{
     margin-top: 15px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+.tituloQuadro {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: #205295;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 30px;
+    min-width: max-content;
+}
 
 .saveboardBtn {
     margin-left: auto; /* Empurra o botão para o extremo direito */
     background-color: #205295;
-    color: white;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
@@ -503,4 +519,21 @@ a{
     background-color: #ff0000;
     color: white;
     cursor: pointer;
+}
+
+.saveboardBtn,
+.excluirBoardBtn {
+    background-color: #2d568b;      
+    color: #fff;                 
+    border: 2px solid #69aaff;               
+    font-size: 18px;                
+    padding: 12px 28px;             
+    border-radius: 8px;             
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.saveboardBtn:hover,
+.excluirBoardBtn:hover {
+    background-color: #216efc;     
+    color: #fff;                    
 }
