@@ -72,6 +72,7 @@ function adicionarTask(botao){
         <div class="taskBody">
             <div class="taskDescription" contenteditable="true">Descrição da nova task</div>
             <div class="taskActions">
+                <img onclick="uparImagem(this)" class="uploadImg" id="uploadImg" src="upload.png">
                 <img onclick="abrirPaletaCard(this)" class="paletaCard" src="paleta.png">
             </div>
         </div>
@@ -82,6 +83,7 @@ function adicionarTask(botao){
 function addColuna(){
     const novaColuna = document.createElement("div");
     novaColuna.className = 'coluna';
+    novaColuna.draggable = 'true';
     novaColuna.innerHTML =  `
             <div class="colunaHead">
                 <div class="colunaHeadTop">
@@ -262,6 +264,7 @@ function carregarQuadro(index) {
                 <div class="taskBody">
                     <div class="taskDescription" contenteditable="true">${task.descricao}</div>
                     <div class="taskActions">
+                        <img onclick="uparImagem(this)" class="uploadImg" id="uploadImg" src="upload.png">
                         <img onclick="abrirPaletaCard(this)" class="paletaCard" src="paleta.png">
                     </div>
                 </div>
@@ -535,3 +538,90 @@ window.addEventListener('DOMContentLoaded', function() {
         paletaTralha.onclick = abrirPaletaTema;
     }
 });
+
+//UPAR IMAGEM
+function uparImagem(imgBtn) {
+    // Cria input file invisível
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+    input.style.display = 'none';
+    document.body.appendChild(input);
+
+    input.onchange = function (event) {
+        const files = Array.from(event.target.files);
+        if (!files.length) return;
+        const taskBody = imgBtn.closest('.taskBody');
+        if (!taskBody) return;
+        // Conta quantas imagens já existem para nomear corretamente
+        let imgCount = taskBody.querySelectorAll('.imgLabel').length;
+        files.forEach((file, idx) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Cria label com thumbnail e nome
+                const label = document.createElement('div');
+                label.className = 'imgLabel';
+                label.style.display = 'inline-block';
+                label.style.marginRight = '8px';
+                label.style.cursor = 'pointer';
+                label.style.title = 'Clique para visualizar';
+                label.style.textAlign = 'center';
+                // Nome do arquivo ou imagemX
+                let nome = file.name ? file.name : `imagem${imgCount + idx + 1}`;
+                if (!file.name) nome = `imagem${imgCount + idx + 1}`;
+                // Mostra só o nome sem extensão se for muito grande
+                if (nome.length > 15) nome = nome.substring(0, 12) + '...';
+                const thumb = document.createElement('img');
+                thumb.src = e.target.result;
+                thumb.style.maxWidth = '40px';
+                thumb.style.maxHeight = '40px';
+                thumb.style.borderRadius = '6px';
+                thumb.style.verticalAlign = 'middle';
+                thumb.style.display = 'block';
+                const caption = document.createElement('span');
+                caption.textContent = nome;
+                caption.style.display = 'block';
+                caption.style.fontSize = '11px';
+                caption.style.color = '#333';
+                caption.style.marginTop = '2px';
+                label.appendChild(thumb);
+                label.appendChild(caption);
+                // Ao clicar, mostra imagem grande em modal
+                label.onclick = function() {
+                    const modal = document.createElement('div');
+                    modal.className = 'imgModal';
+                    modal.style.position = 'fixed';
+                    modal.style.top = '0';
+                    modal.style.left = '0';
+                    modal.style.width = '100vw';
+                    modal.style.height = '100vh';
+                    modal.style.background = 'rgba(0,0,0,0.7)';
+                    modal.style.display = 'flex';
+                    modal.style.alignItems = 'center';
+                    modal.style.justifyContent = 'center';
+                    modal.style.zIndex = '99999';
+                    const bigImg = document.createElement('img');
+                    bigImg.src = e.target.result;
+                    bigImg.style.maxWidth = '80vw';
+                    bigImg.style.maxHeight = '80vh';
+                    bigImg.style.borderRadius = '12px';
+                    modal.appendChild(bigImg);
+                    modal.onclick = function() { modal.remove(); };
+                    document.body.appendChild(modal);
+                };
+                // Insere label antes dos ícones de ação
+                const actions = taskBody.querySelector('.taskActions');
+                if (actions) {
+                    taskBody.insertBefore(label, actions);
+                } else {
+                    taskBody.appendChild(label);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+        document.body.removeChild(input);
+    };
+    input.click();
+}
+
