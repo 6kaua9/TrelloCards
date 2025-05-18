@@ -77,6 +77,9 @@ function adicionarTask(botao){
         </div>
     `;
     coluna.querySelector('.colunaBody').insertBefore(novaTask, botao); // Insere a nova task antes do botão
+    novaTask.querySelector('.taskTitle').addEventListener('input', salvarQuadro);
+novaTask.querySelector('.taskDescription').addEventListener('input', salvarQuadro);
+    salvarQuadro()
 }
 
 function addColuna(){
@@ -95,6 +98,8 @@ function addColuna(){
     <div class="adicionarTask" id="addTask" onclick="adicionarTask(this)">Adicionar Task</div>
     </div>`;
     document.getElementById('colunaBotao').insertAdjacentElement('beforebegin', novaColuna);
+    novaColuna.querySelector('h2[contenteditable="true"]').addEventListener('input', salvarQuadro);
+    salvarQuadro()
 }
 
 function verificarEnter(event) {
@@ -109,6 +114,7 @@ function removerColuna(element) {
     if (coluna) {
         coluna.remove();
     }
+    salvarQuadro()
 
 }
 
@@ -118,6 +124,7 @@ function removerTask(element) {
     if (task) {
         task.remove();
     }
+    salvarQuadro()
 
 }
 
@@ -176,11 +183,11 @@ function salvarQuadro() {
     if (quadroExistenteIndex !== -1) {
         // Substitui o quadro existente
         quadrosSalvos[quadroExistenteIndex] = quadroData;
-        alert('Quadro atualizado com sucesso!');
+    
     } else {
         // Adiciona o novo quadro
         quadrosSalvos.push(quadroData);
-        alert('Quadro salvo com sucesso!');
+    
     }
 
     // Salva a lista atualizada no localStorage
@@ -246,6 +253,8 @@ function carregarQuadro(index) {
             novaColuna.querySelector('.colunaBody').style.backgroundColor = coluna.bodyColor;
         }
 
+        novaColuna.querySelector('h2[contenteditable="true"]').addEventListener('input', salvarQuadro);
+
         const colunaBody = novaColuna.querySelector('.colunaBody');
         coluna.tasks.forEach(task => {
             const novaTask = document.createElement('div');
@@ -273,6 +282,9 @@ function carregarQuadro(index) {
             if (task.bodyColor) {
                 novaTask.querySelector('.taskBody').style.backgroundColor = task.bodyColor;
             }
+            novaTask.querySelector('.taskTitle').addEventListener('input', salvarQuadro);
+            novaTask.querySelector('.taskDescription').addEventListener('input', salvarQuadro);
+            
             colunaBody.appendChild(novaTask);
         });
 
@@ -497,6 +509,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     window.colunaSelecionada.querySelector('.colunaHead').style.backgroundColor = corHead;
                     window.colunaSelecionada.querySelector('.colunaBody').style.backgroundColor = corBody;
                 }
+                salvarQuadro()
                 quadroPaleta.style.display = 'none';
             }
             // Se for task
@@ -524,6 +537,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     window.taskSelecionada.querySelector('.taskHead').style.backgroundColor = corHead;
                     window.taskSelecionada.querySelector('.taskBody').style.backgroundColor = corBody;
                 }
+                salvarQuadro()
                 quadroPaleta.style.display = 'none';
             }
         };
