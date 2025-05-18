@@ -11,9 +11,8 @@
     <div class="navbar">
         <h2>Tralha</h2>
     <div class="botoes">
+        <img class="paletaTralha" src="paleta.png">
         <button id="btnCriar" class="dropbtn" onclick="botaoNovoQuadro()">Novo Quadro</button>
-            
-
         <div class="dropDown">
             <button  id="btn" class="dropbtn">Quadros</button>
             <div class="ddc">
@@ -30,9 +29,25 @@
         <button onclick="botaoNovoQuadro()">Criar Novo Quadro</button>
     </div>
 
+    <div class="quadroPaleta" id="quadroPaleta">
+        <div class="titulo">Selecione uma cor</div>
+        <button class="fecharPaleta" onclick="abrirPaleta()">X</button>
+        <div class="cores">
+            <div id="vermelho" class="bloco-cor cor1">Vermelho</div>
+            <div id="amarelo" class="bloco-cor cor2">Amarelo</div>
+            <div id="azul" class="bloco-cor cor3">Azul</div>
+            <div id="verde" class="bloco-cor cor4">Verde</div>
+            <div id="laranja" class="bloco-cor cor5">Laranja</div>
+            <div id="roxo" class="bloco-cor cor6">Roxo</div>
+            <div id="rosa" class="bloco-cor cor7">Rosa</div>
+            <div id="cinza" class="bloco-cor cor8">Cinza</div>
+        </div>
+    </div>
+
     <div id="QUADRO" style="display: none;">
         <div class="tituloQuadro">
             <span>Quadro de Testes</span>
+            <button class="saveboardBtn" onclick="salvarQuadro()" >Salvar Quadro</button>
             <button class="excluirBoardBtn" onclick="excluirQuadro()">Excluir Quadro</button>
             <span class="closeQuadro" onclick="fecharQuadro()">X</span>
         </div>
@@ -64,7 +79,7 @@
         <input id ="nomeQuadro" type="text" placeholder="Meu quadro trelo" onkeydown="verificarEnter(event)">
         <button type="button" onclick="criarQuadro()">Criar</button>
     </div>
-     
+
 </body>
 <script src="trelolo.js"></script>
 <script src="dragAndDrop.js"></script>

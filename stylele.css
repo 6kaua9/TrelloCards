@@ -54,7 +54,7 @@ body{
 
 .dropbtn{
     border-radius: 2px;
-    background-color: #444;
+    background-color: transparent;
     cursor: pointer;
     width: 105x;
     height: 35px;
@@ -62,7 +62,7 @@ body{
 }
 
 .botoes button{
- background-color: rgb(9, 35, 65);
+ background-color: transparent;
  color: aliceblue;
  box-shadow: white 1px 1px;
 }
@@ -90,6 +90,14 @@ a{
     display: flex;
     padding: 10px;
     justify-content: space-between;
+}
+
+.edit{
+    display: flex;
+    height: 50px;
+    width: auto;
+    filter: drop-shadow(0 0 1rem #ffffffa0);
+
 }
 
 .novoQuadro{
@@ -140,7 +148,7 @@ a{
  /* Quadro, colunas e Tasks*/
 
 #QUADRO{
-    
+    position: relative;
     flex-direction: column;
 }
 
@@ -169,8 +177,7 @@ a{
     width: 180px;
     height: 30px;
     background-color: #205295;
-    color: white
-
+    color: white;
 }
 
 .coluna{
@@ -178,7 +185,6 @@ a{
     display: flex;
     flex-direction: column;
     border: 2px solid black;
-    background-color: #2C74B3;
     color: white;
     width: 220px;
     height: 98%;
@@ -192,18 +198,18 @@ a{
     border-bottom: 2px solid black;
     background-color: #144272;
     color: aliceblue;
-    position: relative
+    position: relative;
 }
 
 .coluna h2{
     margin-left: 8px;
+    margin-top: 8px;
 }
 
 .colunaBody{
-    margin-top: 15px;
-    justify-items:center;
-    
-    
+    background-color: #2C74B3;
+    padding-top: 15px;
+    justify-items:center;   
 }
 
 .adicionarTask{
@@ -247,11 +253,11 @@ a{
     height: auto;
 }
 
-.taskBody{
+.taskBody {
+    position: relative;
     padding: 5px;
-    margin-top: 5px;
     width: 190px;
-    min-height: 90px;
+    min-height: 70px;
 }
 
 .deleteTask{
@@ -310,12 +316,7 @@ a{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-
-.excluirBoardBtn:hover{
-    background-color: #144272;
-    box-shadow: 0px 8px 16px black;
-}
-.excluirBoardBtn{
+.saveboardBtn {
     margin-left: auto; /* Empurra o botão para o extremo direito */
     background-color: #205295;
     color: white;
@@ -324,6 +325,26 @@ a{
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    
+}
+.saveboardBtn:hover {
+    background-color: #144272;
+    box-shadow: 0px 8px 16px black;
+}
+
+.excluirBoardBtn:hover{
+    background-color: #144272;
+    box-shadow: 0px 8px 16px black;
+}
+.excluirBoardBtn{
+    background-color: #205295;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
 }
 
 #telaInicial {
@@ -367,10 +388,119 @@ a{
     position: absolute;
 }
 
+.paleta{
+    display: flex;
+    height: 20px;
+    width: auto;
+    margin-left: 5px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.paletaCard {
+    display: block;
+    height: 20px;
+    width: auto;
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+}
+
+.paletaTralha{
+    cursor: pointer;
+    align-self: center;
+    height: 25px;
+    width: auto;
+    margin-left: 20px;
+    margin-bottom: 3px;
+}
+
 .placeholder {
-    height: 50px; /* Altura do espaço reservado */
+    height: 120px; /* Altura do espaço reservado */
     width: 190px;
     background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo para destacar */
     border: 2px dashed #ccc; /* Borda para indicar a posição */
     margin: 5px 0; /* Espaçamento */
+}
+
+.column-placeholder {
+    width: 200px; /* Largura do espaço reservado */
+    height: 300px; /* Altura total da coluna */
+    background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo para destacar */
+    border: 2px dashed #ccc; /* Borda para indicar a posição */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/*Paleta de cores*/
+.titulo {
+            
+            padding: 5px;
+            background-color: #f6f6f648;
+            width: 680px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff,
+             1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+        }
+
+        .quadroPaleta{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            border-radius: 10px;
+            width: 700px;
+            padding: 10px 0 20px 0;
+            border: 2px solid black;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+            justify-self: center;
+            align-items: center;
+            justify-items: center;
+        }
+        .cores {
+            display: grid;
+            grid-template-columns: repeat(4, 150px);
+            row-gap: 20px;
+            justify-items: center;
+
+        }
+
+        .bloco-cor {
+            width: 130px;
+            height: 90px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            line-height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .cor1 { background: linear-gradient(to bottom, #9c0101, #ff0000); }     /* Vermelho */
+        .cor2 { background: linear-gradient(to bottom, #FEBA17, #FFDE61);  } /* Amarelo */
+        .cor3 { background: linear-gradient(to bottom, #144272, #2C74B3); }     /* Azul */
+        .cor4 { background: linear-gradient(to bottom, #11823b, #7ed286); }     /* Verde */
+        .cor5 { background: linear-gradient(to bottom, #ff7f00, #ffc083);  } /* Laranja */
+        .cor6 { background: linear-gradient(to bottom, #9614d0, #cf7cf4); }     /* Roxo */
+        .cor7 { background: linear-gradient(to bottom, #ff48a5, #ff9fd0);  } /* Rosa */
+        .cor8 { background: linear-gradient(to bottom, #808080, #b8b8b8);  } /* Cinza */
+
+.fecharPaleta{
+    position: fixed;
+    bottom: 92%;
+    left: 96%;
+    border-radius: 20%;
+    background-color: #ff0000;
+    color: white;
+    cursor: pointer;
 }
