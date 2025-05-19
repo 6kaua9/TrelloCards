@@ -349,23 +349,6 @@ padding-bottom: 18px;
     min-width: max-content;
 }
 
-<<<<<<< HEAD
-=======
-.saveboardBtn {
-    margin-left: auto; /* Empurra o botão para o extremo direito */
-    background-color: #205295;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    
-}
-.saveboardBtn:hover {
-    background-color: #144272;
-    box-shadow: 0px 8px 16px black;
-}
->>>>>>> 3fd57eb4011cb3c066db0981fa66f57636971d08
 
 .excluirBoardBtn:hover{
     background-color: #144272;
