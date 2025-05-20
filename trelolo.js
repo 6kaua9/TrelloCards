@@ -79,7 +79,7 @@ function adicionarTask(botao){
     `;
     coluna.querySelector('.colunaBody').insertBefore(novaTask, botao); // Insere a nova task antes do botão
     novaTask.querySelector('.taskTitle').addEventListener('input', salvarQuadro);
-novaTask.querySelector('.taskDescription').addEventListener('input', salvarQuadro);
+    novaTask.querySelector('.taskDescription').addEventListener('input', salvarQuadro);
     salvarQuadro()
 }
 
@@ -292,6 +292,9 @@ function carregarQuadro(index) {
             if (task.bodyColor) {
                 novaTask.querySelector('.taskBody').style.backgroundColor = task.bodyColor;
             }
+            novaTask.querySelector('.taskTitle').addEventListener('input', salvarQuadro);
+            novaTask.querySelector('.taskDescription').addEventListener('input', salvarQuadro);
+
             // Restaura imagens, se houver
             const taskBody = novaTask.querySelector('.taskBody');
             if (task.imagens && Array.isArray(task.imagens)) {
