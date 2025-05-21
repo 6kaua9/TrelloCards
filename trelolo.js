@@ -688,6 +688,7 @@ function uparImagem(imgBtn) {
                 } else {
                     taskBody.appendChild(label);
                 }
+                salvarQuadro();
             };
             reader.readAsDataURL(file);
         });
