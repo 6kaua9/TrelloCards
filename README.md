@@ -55,14 +55,9 @@ Aqui está a descrição das funcionalidades do sistema Tralha:
   Quando o usuário seleciona um quadro da lista, os dados são recuperados do LocalStorage e exibidos na interface.
   Quando o usuário clica em "Excluir Quadro", o quadro correspondente é identificado e removido do LocalStorage.
 
+6.Personalização
+- O usuário pode agora escolher uma cor tema para página clicando no ícone paleta de cores da navbar. O usuário também pode escolher uma cor para as listas e para os cards cards para uma melhor organização vizual em seus quadros.
 
-
-Pontos Negativos e positivos do sistema tralha:
-O sistema Trellinho apresenta pontos positivos como uma interface simples e intuitiva, permitindo que os usuários criem, editem e excluam quadros, colunas e tarefas de forma dinâmica. A persistência de dados no localStorage garante que as informações sejam mantidas mesmo após o fechamento da página, e a organização com botões bem posicionados, como "Salvar", "Excluir" e "Fechar Quadro", facilita a navegação. Além disso, a flexibilidade para editar títulos e descrições diretamente no campo torna o sistema prático para gerenciar tarefas.
-
-Por enquanto o sistema está limitado as funcionalidades já citadas acima mas em futuras atualizações do desenvolvimento do sistema iremos implementar funcionalidades como:
- -autenticação de usuários (mesmo que só para apresentação do sistema)
- -Arrastar e Soltar (drag-and-drop) para reorganizar colunas e tarefas de forma prática. 
- -Personalização, para permitir que o usuário mude a cor de fundo do quadro assim como a cor das listas e cards para melhor organização de seus projetos.
-
+7.Anexo de imagens
+- Agora o usuário pode fazer uploads de imagens do seu computador para os cards que ficarão visiveis como miniaturas abaixo do conteúdo em texto dos cards, que podem ser vizualizadas em tela cheia ao clicar em cima.
 
